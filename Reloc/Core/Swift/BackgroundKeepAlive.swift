@@ -54,7 +54,9 @@ public final class BackgroundKeepAlive: NSObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
         locationManager.allowsBackgroundLocationUpdates = false
 
-        (backgroundActivitySession as? CLBackgroundActivitySession)?.invalidate()
+        if #available(iOS 17.0, *) {
+            (backgroundActivitySession as? CLBackgroundActivitySession)?.invalidate()
+        }
         backgroundActivitySession = nil
 
         stopAudioKeepAlive()
@@ -86,12 +88,16 @@ public final class BackgroundKeepAlive: NSObject, CLLocationManagerDelegate {
 
         if forceRestart {
             locationManager.stopUpdatingLocation()
-            (backgroundActivitySession as? CLBackgroundActivitySession)?.invalidate()
+            if #available(iOS 17.0, *) {
+                (backgroundActivitySession as? CLBackgroundActivitySession)?.invalidate()
+            }
             backgroundActivitySession = nil
         }
 
         if backgroundActivitySession == nil {
-            backgroundActivitySession = CLBackgroundActivitySession()
+            if #available(iOS 17.0, *) {
+                backgroundActivitySession = CLBackgroundActivitySession()
+            }
         }
 
         if status == .authorizedWhenInUse || status == .authorizedAlways {

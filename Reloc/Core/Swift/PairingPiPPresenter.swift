@@ -201,11 +201,18 @@ final class PairingPiPPresenter: NSObject, ObservableObject {
 
     private func enqueueCurrentFrame() {
         guard let displayLayer = hostView?.displayLayer else { return }
-        if displayLayer.sampleBufferRenderer.status == .failed {
-            displayLayer.sampleBufferRenderer.flush()
-        }
         guard let buffer = renderSampleBuffer() else { return }
-        displayLayer.sampleBufferRenderer.enqueue(buffer)
+        if #available(iOS 17.0, *) {
+            if displayLayer.sampleBufferRenderer.status == .failed {
+                displayLayer.sampleBufferRenderer.flush()
+            }
+            displayLayer.sampleBufferRenderer.enqueue(buffer)
+        } else {
+            if displayLayer.status == .failed {
+                displayLayer.flush()
+            }
+            displayLayer.enqueue(buffer)
+        }
     }
 
     private func renderSampleBuffer() -> CMSampleBuffer? {
