@@ -126,7 +126,7 @@ struct ProtocolLogsView: View {
                             .listRowInsets(EdgeInsets(top: 5, leading: 14, bottom: 5, trailing: 14))
                         }
                         .listStyle(.plain)
-                        .onChange(of: viewModel.events.count) { _, _ in
+                        .onChange(of: viewModel.events.count) { _ in
                             if let last = filteredEvents.last {
                                 withAnimation {
                                     proxy.scrollTo(last.id, anchor: .bottom)

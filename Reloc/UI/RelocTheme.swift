@@ -180,7 +180,7 @@ struct PulsingStatusDot: View {
         .onAppear {
             if isPulsing { pulse = true }
         }
-        .onChange(of: isPulsing) { _, active in
+        .onChange(of: isPulsing) { active in
             pulse = active
         }
     }

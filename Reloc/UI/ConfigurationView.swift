@@ -244,7 +244,7 @@ struct ConfigurationView: View {
                 viewModel.importDiscoveredPairing()
                 await viewModel.verifyConnectionIfNeeded()
             }
-            .onChange(of: scenePhase) { _, phase in
+            .onChange(of: scenePhase) { phase in
                 if phase == .active {
                     viewModel.importDiscoveredPairing()
                     Task {
